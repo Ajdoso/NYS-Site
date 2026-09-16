@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickAuto | Premium Auto Parts</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #1b1b1d;
+            --bg-card: #ffffff;
+            --bg-section: #2a2a2c;
+            --accent-green: #5cb85c;
+            --text-light: #f5f5f5;
+            --text-dark: #121212;
+            --text-muted: #888888;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background-color: transparent;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            color: var(--accent-green);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            font-size: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-green);
+        }
+
+        .header-contact {
+            background-color: var(--bg-section);
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            background: linear-gradient(rgba(27, 27, 29, 0.7), rgba(27, 27, 29, 1)), url('https://t10pgalleryv2.azureedge.net/galleryv2images/2e716f24-65bf-411d-898b-0d5e5a51e09d/80a40830-c5f6-479f-8e5c-989d22a80375/2') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 5%;
+        }
+
+        .hero-tags {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.8rem;
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            max-width: 800px;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            color: #bbb;
+            max-width: 600px;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; }
+            .banner-grid, .estimator-section { grid-template-columns: 1fr; flex-direction: column; }
+            .promo-banner { padding: 2rem 1rem; }
+            .estimator-image { min-height: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--accent-green)"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.85 7h10.28l1.08 3.11H5.77L6.85 7zM19 17H5v-5h14v5z"/><circle cx="7.5" cy="14.5" r="1.5"/><circle cx="16.5" cy="14.5" r="1.5"/></svg>
+            <a href="Idex.html" style="text-decoration: none; color: inherit;">Quick<span>Auto</span></a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <section class="hero">
+        <h1>Made by</h1>
+        <ul class="nav-links">
+            <li><a href="#">Omarov Aidos</a></li>
+            <li><a href="#">Sakenov Sabit</a></li>
+            <li><a href="#">Zhanibek Islam</a></li>
+        </ul>
+    </section>
+    </section>
+
+</body>
+</html>
