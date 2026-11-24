@@ -1,14 +1,19 @@
 import React from 'react';
 import Link from 'next/link';
-import { getProducts, getCollections, getBanners } from '@/lib/data/store';
+import { getProducts, getCollections, getBanners, getCategories, getPartners } from '@/lib/data/store';
 import { ProProductCard } from '@/components/proathletic/ProProductCard';
+import { HeroSection } from '@/components/shared/HeroSection';
+import { CategoryCard } from '@/components/shared/CategoryCard';
+import { PartnersSection } from '@/components/shared/PartnersSection';
 import { ArrowRight, Zap, ShieldCheck, Flame, Gauge } from 'lucide-react';
 
 export default async function ProHomePage() {
-  const [products, collections, banners] = await Promise.all([
+  const [products, collections, banners, categories, partners] = await Promise.all([
     getProducts({ brandSlug: 'proathletic' }),
     getCollections('proathletic'),
     getBanners('proathletic'),
+    getCategories('proathletic'),
+    getPartners('proathletic'),
   ]);
 
   const heroBanner = banners.find((b) => b.position === 'hero') || banners[0];
@@ -17,56 +22,17 @@ export default async function ProHomePage() {
 
   return (
     <div className="space-y-16 sm:space-y-24 bg-[#050505] text-white">
-      {/* ================= 1. HIGH-VOLTAGE ATHLETIC HERO ================= */}
-      <section className="relative w-full min-h-[85vh] flex items-center justify-center overflow-hidden bg-[#050505]">
-        {/* Hero Background Image */}
-        <div
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 ease-out scale-100 hover:scale-105 opacity-50"
-          style={{
-            backgroundImage: `url('${heroBanner?.imageUrl || 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=2000&q=85'}')`,
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/50 to-transparent" />
-
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-6 pt-16">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1 border border-[#25272A] bg-[#0F0F10]/90 backdrop-blur-md rounded-full font-mono">
-            <Zap className="w-4 h-4 text-[#CCFF00] fill-current" />
-            <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] text-[#CCFF00] uppercase">
-              PRO-SERIES ZERO • RECOVERY GRADE
-            </span>
-          </div>
-
-          <h1 className="text-4xl sm:text-6xl md:text-8xl font-black tracking-tight uppercase font-sans leading-none">
-            {heroBanner?.title || 'ZERO DISTRACTION'}
-          </h1>
-
-          <p className="max-w-2xl mx-auto text-sm sm:text-base text-zinc-300 font-light tracking-wide leading-relaxed">
-            {heroBanner?.subtitle || 'Engineered for relentless training, extreme durability, and peak human performance. 4-way compression fabric that locks your musculature in place.'}
-          </p>
-
-          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href={heroBanner?.ctaUrl || '/proathletic/collections/pro-series-zero'}
-              className="w-full sm:w-auto px-8 py-4 bg-[#CCFF00] hover:bg-[#B8E600] text-black text-xs font-black tracking-[0.2em] uppercase transition-all duration-300 shadow-pro-glow inline-flex items-center justify-center gap-2"
-            >
-              {heroBanner?.ctaText || 'SHOP PRO-SERIES'} <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              href="/proathletic/shop"
-              className="w-full sm:w-auto px-8 py-4 border border-[#25272A] hover:border-[#CCFF00] text-white text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 inline-flex items-center justify-center"
-            >
-              View All Gear
-            </Link>
-          </div>
-        </div>
-
-        {/* Bottom Tech Indicators */}
-        <div className="absolute bottom-6 inset-x-0 max-w-7xl mx-auto px-6 flex items-center justify-between text-[10px] tracking-widest text-zinc-400 font-mono uppercase">
-          <span>ALMATY SPORTS LAB</span>
-          <span className="hidden sm:inline text-[#CCFF00]">MILITARY-GRADE AERO TEXTILE</span>
-          <span>GRADE-A RECOVERY</span>
-        </div>
-      </section>
+      {/* ================= 1. HIGH-VOLTAGE ATHLETIC HERO (VIDEO/IMAGE) ================= */}
+      <HeroSection
+        banner={heroBanner}
+        brandSlug="proathletic"
+        defaultTitle="ZERO DISTRACTION"
+        defaultSubtitle="High performance athletic apparel engineered for relentless training and maximum physical output. 4-way compression fabric that locks your musculature in place."
+        defaultCtaText="SHOP PRO-SERIES"
+        defaultCtaUrl="/proathletic/collections/pro-series-zero"
+        secondaryCtaText="View All Gear"
+        secondaryCtaUrl="/proathletic/shop"
+      />
 
       {/* ================= 2. TECHNICAL SPECIFICATIONS ================= */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -125,54 +91,8 @@ export default async function ProHomePage() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-          {[
-            {
-              title: 'Compression & Base',
-              href: '/proathletic/shop?category=compression',
-              image: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80',
-              tag: 'Aero-Poly 4-Way',
-            },
-            {
-              title: 'Performance Hoodies',
-              href: '/proathletic/shop?category=hoodies',
-              image: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80',
-              tag: 'Scuba Interlock',
-            },
-            {
-              title: 'Training Tops & Tees',
-              href: '/proathletic/shop?category=training-tops',
-              image: 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=800&q=80',
-              tag: 'Zero Friction',
-            },
-            {
-              title: 'Shorts & Tights',
-              href: '/proathletic/shop?category=shorts-tights',
-              image: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80',
-              tag: 'Full ROM Support',
-            },
-          ].map((cat) => (
-            <Link
-              key={cat.title}
-              href={cat.href}
-              className="group relative aspect-[3/4] overflow-hidden rounded-sm bg-[#0F0F10] border border-[#25272A] hover:border-[#CCFF00] transition-colors shadow-sm flex flex-col justify-end p-5"
-            >
-              <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105"
-                style={{ backgroundImage: `url('${cat.image}')` }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/40 to-transparent" />
-              <div className="relative z-10 space-y-1 text-white">
-                <span className="text-[9px] font-mono font-bold tracking-widest text-[#CCFF00] uppercase">
-                  {cat.tag}
-                </span>
-                <h3 className="text-base sm:text-lg font-black uppercase tracking-wide group-hover:text-[#CCFF00] transition-colors">
-                  {cat.title}
-                </h3>
-                <span className="inline-flex items-center gap-1 text-[10px] font-mono font-bold tracking-widest uppercase text-zinc-300 group-hover:text-white group-hover:translate-x-1 transition-all">
-                  Access <ArrowRight className="w-2.5 h-2.5" />
-                </span>
-              </div>
-            </Link>
+          {categories.slice(0, 4).map((cat) => (
+            <CategoryCard key={cat.id} category={cat} brandSlug="proathletic" />
           ))}
         </div>
       </section>
@@ -260,13 +180,25 @@ export default async function ProHomePage() {
         </div>
       </section>
 
-      {/* ================= 5. HIGH-VOLTAGE CAMPAIGN BANNER ================= */}
+      {/* ================= 5. HIGH-VOLTAGE CAMPAIGN BANNER (VIDEO/IMAGE) ================= */}
       {midBanner && (
         <section className="relative w-full py-24 sm:py-32 overflow-hidden bg-[#0A0A0A] border-y border-[#25272A]">
-          <div
-            className="absolute inset-0 bg-cover bg-fixed bg-center opacity-40 hover:opacity-50 transition-opacity"
-            style={{ backgroundImage: `url('${midBanner.imageUrl}')` }}
-          />
+          {midBanner.videoUrl ? (
+            <video
+              src={midBanner.videoUrl}
+              poster={midBanner.imageUrl}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover opacity-40 hover:opacity-50 transition-opacity"
+            />
+          ) : (
+            <div
+              className="absolute inset-0 bg-cover bg-fixed bg-center opacity-40 hover:opacity-50 transition-opacity"
+              style={{ backgroundImage: `url('${midBanner.imageUrl}')` }}
+            />
+          )}
           <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/80 to-transparent" />
 
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-start max-w-2xl text-white space-y-4">
@@ -316,6 +248,9 @@ export default async function ProHomePage() {
           </div>
         </section>
       )}
+
+      {/* ================= 6.5 PARTNERS & CHAMPIONS SECTION ================= */}
+      <PartnersSection partners={partners} brandSlug="proathletic" />
 
       {/* ================= 7. PRO DIVISION IN ACTION LOOKBOOK ================= */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">

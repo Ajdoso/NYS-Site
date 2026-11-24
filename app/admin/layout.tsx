@@ -70,6 +70,22 @@ export default function AdminLayout({
             </Link>
 
             <Link
+              href="/admin/categories"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-sm hover:bg-zinc-800/80 text-zinc-300 hover:text-white transition-colors"
+            >
+              <Layers className="w-4 h-4 text-amber-400" />
+              <span>Categories & Media</span>
+            </Link>
+
+            <Link
+              href="/admin/partners"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-sm hover:bg-zinc-800/80 text-zinc-300 hover:text-white transition-colors"
+            >
+              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              <span>Athletes & Champions</span>
+            </Link>
+
+            <Link
               href="/admin/orders"
               className="flex items-center gap-3 px-3 py-2.5 rounded-sm hover:bg-zinc-800/80 text-zinc-300 hover:text-white transition-colors"
             >

@@ -7,6 +7,7 @@ import {
   Banner,
   StoreSettings,
   Order,
+  Partner,
 } from '@/types/ecommerce';
 import {
   INITIAL_BRANDS,
@@ -15,6 +16,7 @@ import {
   INITIAL_PRODUCTS,
   INITIAL_BANNERS,
   INITIAL_SETTINGS,
+  INITIAL_PARTNERS,
 } from './seed';
 import { createClient } from '../supabase/client';
 
@@ -23,6 +25,7 @@ let memoryProducts: Product[] = [...INITIAL_PRODUCTS];
 let memoryCollections: Collection[] = [...INITIAL_COLLECTIONS];
 let memoryCategories: Category[] = [...INITIAL_CATEGORIES];
 let memoryBanners: Banner[] = [...INITIAL_BANNERS];
+let memoryPartners: Partner[] = [...INITIAL_PARTNERS];
 let memorySettings: StoreSettings = { ...INITIAL_SETTINGS };
 let memoryOrders: Order[] = [
   {
@@ -309,6 +312,70 @@ export async function deleteBanner(id: string): Promise<boolean> {
   const initial = memoryBanners.length;
   memoryBanners = memoryBanners.filter((b) => b.id !== id);
   return memoryBanners.length < initial;
+}
+
+// ==========================================
+// CATEGORY MUTATIONS
+// ==========================================
+
+export async function createCategory(cat: Omit<Category, 'id'>): Promise<Category> {
+  const newCat: Category = {
+    ...cat,
+    id: `cat-${Date.now()}`,
+  };
+  memoryCategories.push(newCat);
+  return newCat;
+}
+
+export async function updateCategory(id: string, updates: Partial<Category>): Promise<Category | undefined> {
+  const index = memoryCategories.findIndex((c) => c.id === id);
+  if (index === -1) return undefined;
+  memoryCategories[index] = { ...memoryCategories[index], ...updates };
+  return memoryCategories[index];
+}
+
+export async function deleteCategory(id: string): Promise<boolean> {
+  const initial = memoryCategories.length;
+  memoryCategories = memoryCategories.filter((c) => c.id !== id);
+  return memoryCategories.length < initial;
+}
+
+// ==========================================
+// PARTNER / ATHLETE AMBASSADORS API
+// ==========================================
+
+export async function getPartners(brandSlug?: BrandId): Promise<Partner[]> {
+  let list = [...memoryPartners].filter((p) => p.isActive);
+  if (brandSlug) {
+    list = list.filter((p) => p.brandSlug === brandSlug);
+  }
+  return list.sort((a, b) => a.displayOrder - b.displayOrder);
+}
+
+export async function getAllPartnersAdmin(): Promise<Partner[]> {
+  return [...memoryPartners];
+}
+
+export async function createPartner(partner: Omit<Partner, 'id'>): Promise<Partner> {
+  const newPartner: Partner = {
+    ...partner,
+    id: `part-${Date.now()}`,
+  };
+  memoryPartners.push(newPartner);
+  return newPartner;
+}
+
+export async function updatePartner(id: string, updates: Partial<Partner>): Promise<Partner | undefined> {
+  const index = memoryPartners.findIndex((p) => p.id === id);
+  if (index === -1) return undefined;
+  memoryPartners[index] = { ...memoryPartners[index], ...updates };
+  return memoryPartners[index];
+}
+
+export async function deletePartner(id: string): Promise<boolean> {
+  const initial = memoryPartners.length;
+  memoryPartners = memoryPartners.filter((p) => p.id !== id);
+  return memoryPartners.length < initial;
 }
 
 // ==========================================

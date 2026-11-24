@@ -1,15 +1,20 @@
 import React from 'react';
 import Link from 'next/link';
-import { getProducts, getCollections, getBanners } from '@/lib/data/store';
+import { getProducts, getCollections, getBanners, getCategories, getPartners } from '@/lib/data/store';
 import { TynProductCard } from '@/components/tyn/TynProductCard';
 import { KazakhDivider, KoshkarMuyiz } from '@/components/tyn/KazakhOrnament';
+import { HeroSection } from '@/components/shared/HeroSection';
+import { CategoryCard } from '@/components/shared/CategoryCard';
+import { PartnersSection } from '@/components/shared/PartnersSection';
 import { ArrowRight, Sparkles, Shield, Compass } from 'lucide-react';
 
 export default async function TynHomePage() {
-  const [products, collections, banners] = await Promise.all([
+  const [products, collections, banners, categories, partners] = await Promise.all([
     getProducts({ brandSlug: 'tyn' }),
     getCollections('tyn'),
     getBanners('tyn'),
+    getCategories('tyn'),
+    getPartners('tyn'),
   ]);
 
   const heroBanner = banners.find((b) => b.position === 'hero') || banners[0];
@@ -19,56 +24,17 @@ export default async function TynHomePage() {
 
   return (
     <div className="space-y-16 sm:space-y-24">
-      {/* ================= 1. LARGE EDITORIAL HERO SECTION ================= */}
-      <section className="relative w-full min-h-[85vh] flex items-center justify-center overflow-hidden bg-[#0A1F26]">
-        {/* Hero Background Image */}
-        <div
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 ease-out scale-100 hover:scale-105 opacity-60"
-          style={{
-            backgroundImage: `url('${heroBanner?.imageUrl || 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=2000&q=85'}')`,
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0A1F26] via-[#0A1F26]/40 to-transparent" />
-
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center text-[#F7F5F0] space-y-6 pt-16">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 border border-[#C49A45]/40 bg-[#0D4352]/80 backdrop-blur-md rounded-full">
-            <KoshkarMuyiz className="w-4 h-4 text-[#C49A45]" color="#C49A45" />
-            <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] text-[#C49A45] uppercase">
-              Дала Көкжиегі • Drop 01
-            </span>
-          </div>
-
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-wider uppercase font-serif leading-tight">
-            {heroBanner?.title || 'THE STEPPE HORIZON'}
-          </h1>
-
-          <p className="max-w-2xl mx-auto text-sm sm:text-base text-zinc-300 font-light tracking-wide leading-relaxed">
-            {heroBanner?.subtitle || 'Kazakh national heritage re-engineered into heavyweight modern streetwear. 500 GSM loopback cotton with ancestral geometric embroidery.'}
-          </p>
-
-          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href={heroBanner?.ctaUrl || '/tyn/collections/steppe-horizon'}
-              className="w-full sm:w-auto px-8 py-4 bg-[#C49A45] hover:bg-[#E0C078] text-[#0A1F26] text-xs font-black tracking-[0.2em] uppercase transition-all duration-300 shadow-xl inline-flex items-center justify-center gap-2"
-            >
-              {heroBanner?.ctaText || 'EXPLORE COLLECTION'} <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              href="/tyn/shop"
-              className="w-full sm:w-auto px-8 py-4 border border-[#F7F5F0]/60 hover:bg-[#F7F5F0] hover:text-[#0D4352] text-[#F7F5F0] text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 inline-flex items-center justify-center"
-            >
-              Shop All Streetwear
-            </Link>
-          </div>
-        </div>
-
-        {/* Bottom Steppe Coordinates */}
-        <div className="absolute bottom-6 inset-x-0 max-w-7xl mx-auto px-6 flex items-center justify-between text-[10px] tracking-widest text-zinc-400 font-serif uppercase">
-          <span>ALMATY (43.2220° N, 76.8512° E)</span>
-          <span className="hidden sm:inline">AUTHENTIC KAZAKH ORNAMENTATION</span>
-          <span>ASTANA (51.1694° N, 71.4491° E)</span>
-        </div>
-      </section>
+      {/* ================= 1. LARGE EDITORIAL HERO SECTION (VIDEO/IMAGE) ================= */}
+      <HeroSection
+        banner={heroBanner}
+        brandSlug="tyn"
+        defaultTitle="THE STEPPE HORIZON"
+        defaultSubtitle="Kazakh national heritage re-engineered into heavyweight modern streetwear. 500 GSM loopback cotton with ancestral geometric embroidery."
+        defaultCtaText="EXPLORE COLLECTION"
+        defaultCtaUrl="/tyn/collections/steppe-horizon"
+        secondaryCtaText="Shop All Streetwear"
+        secondaryCtaUrl="/tyn/shop"
+      />
 
       {/* ================= 2. BRAND PHILOSOPHY / CULTURAL IDENTITY ================= */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -114,7 +80,7 @@ export default async function TynHomePage() {
         </div>
       </section>
 
-      {/* ================= 2.5 BOXRAW-STYLE CATEGORY GRID ================= */}
+      {/* ================= 3. BOXRAW-STYLE CATEGORY GRID (OPTION A / B / PLACEHOLDER) ================= */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <div className="flex items-end justify-between border-b border-[#0D4352]/15 pb-4">
           <div>
@@ -134,54 +100,8 @@ export default async function TynHomePage() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-          {[
-            {
-              title: 'Heavyweight Hoodies',
-              href: '/tyn/shop?category=hoodies',
-              image: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80',
-              tag: '500 GSM Fleece',
-            },
-            {
-              title: 'Outerwear & Bombers',
-              href: '/tyn/shop?category=outerwear',
-              image: 'https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=800&q=80',
-              tag: 'Weatherproof',
-            },
-            {
-              title: 'Oversized Tees',
-              href: '/tyn/shop?category=tees',
-              image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80',
-              tag: '280 GSM Cotton',
-            },
-            {
-              title: 'Pants & Cargos',
-              href: '/tyn/shop?category=pants',
-              image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=800&q=80',
-              tag: 'Tailored Relaxed Fit',
-            },
-          ].map((cat) => (
-            <Link
-              key={cat.title}
-              href={cat.href}
-              className="group relative aspect-[3/4] overflow-hidden rounded-sm bg-[#EDE7DC] border border-[#0D4352]/10 shadow-sm flex flex-col justify-end p-5"
-            >
-              <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105"
-                style={{ backgroundImage: `url('${cat.image}')` }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A1F26] via-[#0A1F26]/30 to-transparent" />
-              <div className="relative z-10 space-y-1 text-[#F7F5F0]">
-                <span className="text-[9px] font-mono font-bold tracking-widest text-[#C49A45] uppercase">
-                  {cat.tag}
-                </span>
-                <h3 className="text-base sm:text-lg font-black font-serif uppercase tracking-wide group-hover:text-[#C49A45] transition-colors">
-                  {cat.title}
-                </h3>
-                <span className="inline-flex items-center gap-1 text-[10px] font-bold tracking-widest uppercase text-white/80 group-hover:translate-x-1 transition-transform">
-                  Browse <ArrowRight className="w-2.5 h-2.5" />
-                </span>
-              </div>
-            </Link>
+          {categories.slice(0, 4).map((cat) => (
+            <CategoryCard key={cat.id} category={cat} brandSlug="tyn" />
           ))}
         </div>
       </section>
@@ -269,13 +189,25 @@ export default async function TynHomePage() {
         </div>
       </section>
 
-      {/* ================= 5. EDITORIAL CAMPAIGN BANNER ================= */}
+      {/* ================= 5. EDITORIAL CAMPAIGN BANNER (VIDEO/IMAGE) ================= */}
       {midBanner && (
         <section className="relative w-full py-24 sm:py-32 overflow-hidden bg-[#0A1F26]">
-          <div
-            className="absolute inset-0 bg-cover bg-fixed bg-center opacity-40 hover:opacity-50 transition-opacity"
-            style={{ backgroundImage: `url('${midBanner.imageUrl}')` }}
-          />
+          {midBanner.videoUrl ? (
+            <video
+              src={midBanner.videoUrl}
+              poster={midBanner.imageUrl}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover opacity-40 hover:opacity-50 transition-opacity"
+            />
+          ) : (
+            <div
+              className="absolute inset-0 bg-cover bg-fixed bg-center opacity-40 hover:opacity-50 transition-opacity"
+              style={{ backgroundImage: `url('${midBanner.imageUrl}')` }}
+            />
+          )}
           <div className="absolute inset-0 bg-gradient-to-r from-[#0A1F26] via-[#0A1F26]/70 to-transparent" />
 
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-start max-w-2xl text-[#F7F5F0] space-y-4">
@@ -325,6 +257,9 @@ export default async function TynHomePage() {
           </div>
         </section>
       )}
+
+      {/* ================= 6.5 PARTNERS & AMBASSADORS SECTION ================= */}
+      <PartnersSection partners={partners} brandSlug="tyn" />
 
       {/* ================= 7. STEPPE ARCHIVE / EDITORIAL LOOKBOOK ================= */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">

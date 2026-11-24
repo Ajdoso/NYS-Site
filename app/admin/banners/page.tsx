@@ -22,6 +22,8 @@ export default function AdminBannersPage() {
     ctaText: '',
     ctaUrl: '',
     imageUrl: '',
+    videoUrl: '',
+    mediaType: 'image' as 'image' | 'video',
     position: 'hero' as Banner['position'],
     isActive: true,
   });

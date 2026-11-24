@@ -19,6 +19,7 @@ export interface Category {
   slug: string;
   description?: string;
   imageUrl?: string;
+  displayMode?: 'image' | 'text';
   displayOrder: number;
 }
 
@@ -156,7 +157,21 @@ export interface Banner {
   ctaUrl?: string;
   imageUrl: string;
   mobileImageUrl?: string;
-  position: 'hero' | 'promo_top' | 'promo_mid' | 'promo_bottom' | 'announcement';
+  videoUrl?: string;
+  mediaType?: 'image' | 'video';
+  position: 'hero' | 'promo_top' | 'promo_mid' | 'promo_bottom' | 'announcement' | 'partner';
+  displayOrder: number;
+  isActive: boolean;
+}
+
+export interface Partner {
+  id: string;
+  brandSlug: BrandId;
+  name: string;
+  role: string;
+  imageUrl: string;
+  videoUrl?: string;
+  quote?: string;
   displayOrder: number;
   isActive: boolean;
 }

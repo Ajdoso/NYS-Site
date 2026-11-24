@@ -1,4 +1,4 @@
-import { Brand, Category, Collection, Product, Banner, StoreSettings } from '@/types/ecommerce';
+import { Brand, Category, Collection, Product, Banner, StoreSettings, Partner } from '@/types/ecommerce';
 
 export const INITIAL_BRANDS: Brand[] = [
   {
@@ -635,6 +635,8 @@ export const INITIAL_BANNERS: Banner[] = [
     ctaText: 'EXPLORE COLLECTION',
     ctaUrl: '/tyn/collections/steppe-horizon',
     imageUrl: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=2000&q=85',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-young-man-walking-in-the-street-at-night-42456-large.mp4',
+    mediaType: 'video',
     position: 'hero',
     displayOrder: 1,
     isActive: true,
@@ -647,6 +649,8 @@ export const INITIAL_BANNERS: Banner[] = [
     ctaText: 'SHOP THE EDIT',
     ctaUrl: '/tyn/shop',
     imageUrl: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=2000&q=85',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-man-dancing-under-the-rain-in-a-street-42458-large.mp4',
+    mediaType: 'image',
     position: 'promo_mid',
     displayOrder: 2,
     isActive: true,
@@ -661,6 +665,8 @@ export const INITIAL_BANNERS: Banner[] = [
     ctaText: 'SHOP PRO-SERIES',
     ctaUrl: '/proathletic/collections/pro-series-zero',
     imageUrl: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=2000&q=85',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-boxer-getting-ready-to-fight-40283-large.mp4',
+    mediaType: 'video',
     position: 'hero',
     displayOrder: 1,
     isActive: true,
@@ -673,8 +679,80 @@ export const INITIAL_BANNERS: Banner[] = [
     ctaText: 'DISCOVER DROP',
     ctaUrl: '/proathletic/collections/neon-impact',
     imageUrl: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=2000&q=85',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-athletic-man-training-with-ropes-at-gym-42790-large.mp4',
+    mediaType: 'video',
     position: 'promo_mid',
     displayOrder: 2,
+    isActive: true,
+  },
+];
+
+export const INITIAL_PARTNERS: Partner[] = [
+  // TYN Ambassadors / Champions
+  {
+    id: 'part-tyn-1',
+    brandSlug: 'tyn',
+    name: 'Janibek Alimkhanuly',
+    role: 'WBO & IBF World Middleweight Champion',
+    imageUrl: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-boxer-getting-ready-to-fight-40283-large.mp4',
+    quote: 'The pride of the Kazakh steppe carried onto the world championship stage.',
+    displayOrder: 1,
+    isActive: true,
+  },
+  {
+    id: 'part-tyn-2',
+    brandSlug: 'tyn',
+    name: 'Shavkat Rakhmonov',
+    role: 'Undefeated Welterweight Combat Phenom',
+    imageUrl: 'https://images.unsplash.com/photo-1549476464-37392f717541?auto=format&fit=crop&w=800&q=80',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-boxer-getting-ready-to-fight-40283-large.mp4',
+    quote: 'Nomad discipline, unstoppable resolve, and ancestral brotherhood.',
+    displayOrder: 2,
+    isActive: true,
+  },
+  {
+    id: 'part-tyn-3',
+    brandSlug: 'tyn',
+    name: 'Assem Oralbek',
+    role: 'Steppe Equestrian & Cultural Curator',
+    imageUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
+    quote: 'Revitalizing nomadic craftsmanship into high-density modern apparel.',
+    displayOrder: 3,
+    isActive: true,
+  },
+
+  // PROATHLETIC Athletes
+  {
+    id: 'part-pro-1',
+    brandSlug: 'proathletic',
+    name: 'Gennady Golovkin',
+    role: 'Olympic Medalist & Two-Time World Champion',
+    imageUrl: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-boxer-getting-ready-to-fight-40283-large.mp4',
+    quote: 'Mexican style with Kazakh iron willpower. Relentless forward pressure.',
+    displayOrder: 1,
+    isActive: true,
+  },
+  {
+    id: 'part-pro-2',
+    brandSlug: 'proathletic',
+    name: 'Ilya Ilyin',
+    role: 'Four-Time World Champion Weightlifter',
+    imageUrl: 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=800&q=80',
+    quote: 'Precision bar velocity and maximum structural compression at the bottom of the pull.',
+    displayOrder: 2,
+    isActive: true,
+  },
+  {
+    id: 'part-pro-3',
+    brandSlug: 'proathletic',
+    name: 'Dmitriy Balandin',
+    role: 'Olympic Gold Medalist Swimmer',
+    imageUrl: 'https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=800&q=80',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-athletic-man-training-with-ropes-at-gym-42790-large.mp4',
+    quote: 'Zero drag, frictionless hydro-mesh, and explosive stamina.',
+    displayOrder: 3,
     isActive: true,
   },
 ];
