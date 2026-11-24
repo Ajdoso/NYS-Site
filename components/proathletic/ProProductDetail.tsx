@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Product } from '@/types/ecommerce';
 import { formatPrice } from '@/lib/utils/format';
 import { useCart } from '@/lib/context/CartContext';
+import { useLanguage } from '@/lib/context/LanguageContext';
 import { SizeGuideModal } from '@/components/shared/SizeGuideModal';
 import { ProProductCard } from './ProProductCard';
 import {
@@ -26,6 +27,7 @@ export const ProProductDetail: React.FC<{
   relatedProducts: Product[];
 }> = ({ product, relatedProducts }) => {
   const { addToCart } = useCart();
+  const { t } = useLanguage();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState(product.colors[0] || { name: 'Carbon Black', hex: '#050505' });
   const [selectedSize, setSelectedSize] = useState(product.sizes[0] || 'M');
@@ -148,14 +150,14 @@ export const ProProductDetail: React.FC<{
               </span>
             )}
             <span className="ml-auto text-xs text-zinc-400 font-bold">
-              FREE SHIPPING &gt; 35 000 ₸
+              {t('announcements.freeShipping')}
             </span>
           </div>
 
           {/* Color Selection */}
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs font-mono">
-              <span className="font-bold text-white uppercase tracking-wider">COLORWAY:</span>
+              <span className="font-bold text-white uppercase tracking-wider">{t('product.color')}:</span>
               <span className="text-zinc-400">{selectedColor.name}</span>
             </div>
             <div className="flex items-center space-x-3">
@@ -182,12 +184,12 @@ export const ProProductDetail: React.FC<{
           {/* Size Selection */}
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs font-mono">
-              <span className="font-bold text-white uppercase tracking-wider">ATHLETE SIZING:</span>
+              <span className="font-bold text-white uppercase tracking-wider">{t('product.size')}:</span>
               <button
                 onClick={() => setIsSizeGuideOpen(true)}
                 className="text-xs text-[#CCFF00] hover:underline inline-flex items-center gap-1 font-mono font-bold uppercase"
               >
-                <Ruler className="w-3.5 h-3.5" /> FIT SPEC SHEET
+                <Ruler className="w-3.5 h-3.5" /> {t('product.sizingGuide')}
               </button>
             </div>
             <div className="grid grid-cols-5 gap-2">
@@ -216,10 +218,10 @@ export const ProProductDetail: React.FC<{
             />
             <span className="font-medium text-zinc-300">
               {isOutOfStock
-                ? 'Out of stock in selected size/color'
+                ? t('product.outOfStock')
                 : currentStock <= 5
-                ? `CRITICAL STOCK: Only ${currentStock} units left!`
-                : `IN STOCK (${currentStock} units ready for immediate dispatch)`}
+                ? t('product.onlyLeft', { count: currentStock })
+                : `${t('product.inStock')} (${currentStock})`}
             </span>
           </div>
 
@@ -249,7 +251,7 @@ export const ProProductDetail: React.FC<{
                 disabled={isOutOfStock}
                 className="flex-1 py-3.5 px-6 bg-[#CCFF00] hover:bg-[#B8E600] text-black text-xs font-mono font-black tracking-[0.2em] uppercase transition-all duration-200 shadow-pro-glow flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isOutOfStock ? 'OUT OF STOCK' : 'RAPID ADD TO BAG'}
+                {isOutOfStock ? t('product.outOfStock') : t('product.rapidAdd')}
               </button>
             </div>
           </div>
@@ -277,7 +279,7 @@ export const ProProductDetail: React.FC<{
                 onClick={() => setActiveTab(activeTab === 'specs' ? ('' as any) : 'specs')}
                 className="w-full p-3 text-left text-xs font-mono font-bold uppercase tracking-wider text-white flex items-center justify-between"
               >
-                <span>Engineering & Specifications</span>
+                <span>{t('product.engineeringSpecs')}</span>
                 <ChevronDown className={`w-4 h-4 text-[#CCFF00] transition-transform ${activeTab === 'specs' ? 'rotate-180' : ''}`} />
               </button>
               {activeTab === 'specs' && (
@@ -299,7 +301,7 @@ export const ProProductDetail: React.FC<{
                 onClick={() => setActiveTab(activeTab === 'fabric' ? ('' as any) : 'fabric')}
                 className="w-full p-3 text-left text-xs font-mono font-bold uppercase tracking-wider text-white flex items-center justify-between"
               >
-                <span>Fabric Lab & Maintenance</span>
+                <span>{t('product.fabricLab')}</span>
                 <ChevronDown className={`w-4 h-4 text-[#CCFF00] transition-transform ${activeTab === 'fabric' ? 'rotate-180' : ''}`} />
               </button>
               {activeTab === 'fabric' && (
@@ -315,7 +317,7 @@ export const ProProductDetail: React.FC<{
                 onClick={() => setActiveTab(activeTab === 'dispatch' ? ('' as any) : 'dispatch')}
                 className="w-full p-3 text-left text-xs font-mono font-bold uppercase tracking-wider text-white flex items-center justify-between"
               >
-                <span>Courier Logistics</span>
+                <span>{t('product.courierLogistics')}</span>
                 <ChevronDown className={`w-4 h-4 text-[#CCFF00] transition-transform ${activeTab === 'dispatch' ? 'rotate-180' : ''}`} />
               </button>
               {activeTab === 'dispatch' && (
@@ -335,13 +337,13 @@ export const ProProductDetail: React.FC<{
         <div className="pt-12 border-t border-[#25272A] space-y-6">
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-black uppercase tracking-tight text-white">
-              RECOMMENDED ATHLETE TRAINING KITS
+              {t('product.recommendedGear')}
             </h3>
             <Link
               href="/proathletic/shop"
               className="text-xs font-mono font-bold uppercase tracking-widest text-[#CCFF00] hover:underline"
             >
-              ALL GEAR →
+              {t('home.viewAll')} →
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

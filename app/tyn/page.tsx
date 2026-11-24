@@ -114,6 +114,78 @@ export default async function TynHomePage() {
         </div>
       </section>
 
+      {/* ================= 2.5 BOXRAW-STYLE CATEGORY GRID ================= */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div className="flex items-end justify-between border-b border-[#0D4352]/15 pb-4">
+          <div>
+            <p className="text-[10px] font-bold tracking-[0.25em] text-[#C49A45] uppercase font-serif">
+              Curated Wardrobe
+            </p>
+            <h2 className="text-2xl sm:text-3xl font-black text-[#0D4352] font-serif uppercase tracking-wide mt-1">
+              Shop By Category
+            </h2>
+          </div>
+          <Link
+            href="/tyn/shop"
+            className="text-xs font-bold tracking-widest text-[#0D4352] hover:text-[#C49A45] uppercase inline-flex items-center gap-1"
+          >
+            All Categories <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+          {[
+            {
+              title: 'Heavyweight Hoodies',
+              href: '/tyn/shop?category=hoodies',
+              image: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80',
+              tag: '500 GSM Fleece',
+            },
+            {
+              title: 'Outerwear & Bombers',
+              href: '/tyn/shop?category=outerwear',
+              image: 'https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=800&q=80',
+              tag: 'Weatherproof',
+            },
+            {
+              title: 'Oversized Tees',
+              href: '/tyn/shop?category=tees',
+              image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80',
+              tag: '280 GSM Cotton',
+            },
+            {
+              title: 'Pants & Cargos',
+              href: '/tyn/shop?category=pants',
+              image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=800&q=80',
+              tag: 'Tailored Relaxed Fit',
+            },
+          ].map((cat) => (
+            <Link
+              key={cat.title}
+              href={cat.href}
+              className="group relative aspect-[3/4] overflow-hidden rounded-sm bg-[#EDE7DC] border border-[#0D4352]/10 shadow-sm flex flex-col justify-end p-5"
+            >
+              <div
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105"
+                style={{ backgroundImage: `url('${cat.image}')` }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0A1F26] via-[#0A1F26]/30 to-transparent" />
+              <div className="relative z-10 space-y-1 text-[#F7F5F0]">
+                <span className="text-[9px] font-mono font-bold tracking-widest text-[#C49A45] uppercase">
+                  {cat.tag}
+                </span>
+                <h3 className="text-base sm:text-lg font-black font-serif uppercase tracking-wide group-hover:text-[#C49A45] transition-colors">
+                  {cat.title}
+                </h3>
+                <span className="inline-flex items-center gap-1 text-[10px] font-bold tracking-widest uppercase text-white/80 group-hover:translate-x-1 transition-transform">
+                  Browse <ArrowRight className="w-2.5 h-2.5" />
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {/* ================= 3. FEATURED COLLECTIONS ================= */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-[#0D4352]/15 pb-4">
@@ -253,6 +325,91 @@ export default async function TynHomePage() {
           </div>
         </section>
       )}
+
+      {/* ================= 7. STEPPE ARCHIVE / EDITORIAL LOOKBOOK ================= */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div className="flex items-end justify-between border-b border-[#0D4352]/15 pb-4">
+          <div>
+            <p className="text-[10px] font-bold tracking-[0.25em] text-[#C49A45] uppercase font-serif">
+              Visual Narrative
+            </p>
+            <h2 className="text-2xl sm:text-3xl font-black text-[#0D4352] font-serif uppercase tracking-wide mt-1">
+              Steppe Archive Lookbook
+            </h2>
+          </div>
+          <span className="text-xs font-mono text-zinc-500 font-bold uppercase tracking-widest">
+            #TYNCOMMUNITY
+          </span>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+          {[
+            {
+              src: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80',
+              caption: 'Almaty Atelier • Drop 01',
+            },
+            {
+              src: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80',
+              caption: 'Charyn Canyon Session',
+            },
+            {
+              src: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=80',
+              caption: 'Ancestral Geometry 500 GSM',
+            },
+            {
+              src: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80',
+              caption: 'Astana Boulevard Silhouette',
+            },
+          ].map((item, idx) => (
+            <div key={idx} className="group relative aspect-square overflow-hidden rounded-sm bg-[#EDE7DC]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={item.src}
+                alt={item.caption}
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-[#0A1F26]/0 group-hover:bg-[#0A1F26]/60 transition-colors flex items-end p-4">
+                <span className="text-[11px] font-serif text-[#F7F5F0] opacity-0 group-hover:opacity-100 transition-opacity">
+                  {item.caption}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ================= 8. STEPPE CIRCLE VIP INVITATION ================= */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative overflow-hidden bg-[#0A1F26] text-[#F7F5F0] p-8 sm:p-14 border border-[#C49A45]/30 rounded-sm text-center space-y-6">
+          <div className="flex justify-center">
+            <KoshkarMuyiz className="w-8 h-8 text-[#C49A45]" color="#C49A45" />
+          </div>
+          <div className="space-y-2 max-w-xl mx-auto">
+            <span className="text-[10px] font-bold tracking-[0.3em] text-[#C49A45] uppercase font-serif">
+              Exclusive Steppe Guild
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-black font-serif uppercase tracking-wider">
+              Join The Steppe Circle
+            </h2>
+            <p className="text-xs sm:text-sm text-zinc-300 font-light leading-relaxed">
+              Receive private preview access to limited numbered drops, ceremonial lookbooks, and invitation-only atelier events in Almaty and Astana.
+            </p>
+          </div>
+          <form className="max-w-md mx-auto flex flex-col sm:flex-row gap-2" onSubmit={undefined}>
+            <input
+              type="email"
+              placeholder="Enter your email address"
+              className="flex-1 px-4 py-3 bg-[#0D4352]/60 border border-[#C49A45]/40 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-[#C49A45] font-serif"
+            />
+            <button
+              type="button"
+              className="px-6 py-3 bg-[#C49A45] hover:bg-[#E0C078] text-[#0A1F26] text-xs font-black tracking-widest uppercase transition-all whitespace-nowrap"
+            >
+              Request Access
+            </button>
+          </form>
+        </div>
+      </section>
 
       {/* Ornamental Section Divider */}
       <KazakhDivider label="Мұра мен Болашақ" />

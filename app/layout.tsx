@@ -3,6 +3,7 @@ import '@/styles/shared/globals.css';
 import '@/styles/tyn/tyn.css';
 import '@/styles/proathletic/proathletic.css';
 import { CartProvider } from '@/lib/context/CartContext';
+import { LanguageProvider } from '@/lib/context/LanguageContext';
 import { CartDrawer } from '@/components/shared/CartDrawer';
 
 export const metadata: Metadata = {
@@ -18,10 +19,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen bg-white text-zinc-900 antialiased selection:bg-zinc-800 selection:text-white">
-        <CartProvider>
-          {children}
-          <CartDrawer />
-        </CartProvider>
+        <LanguageProvider>
+          <CartProvider>
+            {children}
+            <CartDrawer />
+          </CartProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

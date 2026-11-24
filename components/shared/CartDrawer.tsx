@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useCart } from '@/lib/context/CartContext';
+import { useLanguage } from '@/lib/context/LanguageContext';
 import { formatPrice } from '@/lib/utils/format';
 import { X, Trash2, Plus, Minus, ShoppingBag, ArrowRight } from 'lucide-react';
 
@@ -17,6 +18,7 @@ export const CartDrawer: React.FC = () => {
     freeShippingThreshold,
     amountUntilFreeShipping,
   } = useCart();
+  const { t } = useLanguage();
 
   if (!isCartOpen) return null;
 
@@ -36,7 +38,7 @@ export const CartDrawer: React.FC = () => {
           <div className="p-5 border-b border-zinc-200 flex items-center justify-between bg-zinc-50">
             <div className="flex items-center space-x-2">
               <ShoppingBag className="w-5 h-5 text-zinc-800" />
-              <h2 className="text-base font-bold tracking-wider uppercase">Your Bag ({cart.length})</h2>
+              <h2 className="text-base font-bold tracking-wider uppercase">{t('cart.title')} ({cart.length})</h2>
             </div>
             <button
               onClick={() => setIsCartOpen(false)}
@@ -47,17 +49,16 @@ export const CartDrawer: React.FC = () => {
             </button>
           </div>
 
-          {/* Free Shipping Progress Meter */}
+          {/* BOXRAW-Style Free Shipping Progress Meter */}
           <div className="px-5 py-3 bg-zinc-100 border-b border-zinc-200 text-xs">
             {amountUntilFreeShipping === 0 ? (
               <p className="text-emerald-700 font-semibold flex items-center">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 mr-2 animate-pulse" />
-                Congratulations! You qualified for FREE SHIPPING across Kazakhstan!
+                {t('cart.qualifiedFreeShipping')}
               </p>
             ) : (
               <p className="text-zinc-700">
-                Add <span className="font-bold text-zinc-900">{formatPrice(amountUntilFreeShipping)}</span> more for{' '}
-                <span className="font-bold text-emerald-700">FREE SHIPPING</span>
+                {t('cart.addMoreForFreeShipping', { amount: formatPrice(amountUntilFreeShipping) })}
               </p>
             )}
             <div className="w-full bg-zinc-300 h-1.5 rounded-full mt-2 overflow-hidden">
@@ -76,10 +77,10 @@ export const CartDrawer: React.FC = () => {
                   <ShoppingBag className="w-8 h-8" />
                 </div>
                 <h3 className="text-base font-semibold text-zinc-800 uppercase tracking-wider mb-1">
-                  Your bag is empty
+                  {t('cart.emptyTitle')}
                 </h3>
                 <p className="text-sm text-zinc-500 max-w-xs mb-6">
-                  Explore our latest drops from TYN and PROATHLETIC to fill it up.
+                  {t('cart.emptySubtitle')}
                 </p>
                 <div className="flex flex-col gap-2 w-full max-w-xs">
                   <Link
@@ -141,7 +142,7 @@ export const CartDrawer: React.FC = () => {
                       </h4>
 
                       <p className="text-[11px] text-zinc-500 mt-0.5">
-                        {item.color} • Size {item.size}
+                        {item.color} • {t('product.size')} {item.size}
                       </p>
                     </div>
 
@@ -181,27 +182,27 @@ export const CartDrawer: React.FC = () => {
           {cart.length > 0 && (
             <div className="p-5 bg-zinc-50 border-t border-zinc-200 space-y-3">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-zinc-600">Subtotal</span>
+                <span className="text-zinc-600">{t('cart.subtotal')}</span>
                 <span className="text-base font-extrabold text-zinc-900">{formatPrice(subtotal)}</span>
               </div>
               <p className="text-[11px] text-zinc-500">
-                Taxes & shipping calculated at checkout. Express delivery available across Kazakhstan.
+                {t('product.taxIncluded')}. Express courier delivery available across Kazakhstan.
               </p>
 
               <div className="space-y-2 pt-1">
                 <Link
                   href="/checkout"
                   onClick={() => setIsCartOpen(false)}
-                  className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-zinc-900 text-white text-xs font-bold tracking-widest uppercase hover:bg-zinc-800 transition-colors shadow-md"
+                  className="w-full flex items-center justify-center gap-2 py-3.5 px-4 bg-zinc-900 text-white text-xs font-bold tracking-widest uppercase hover:bg-zinc-800 transition-colors shadow-md"
                 >
-                  Proceed to Checkout <ArrowRight className="w-4 h-4" />
+                  {t('cart.checkout')} <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
                   href="/cart"
                   onClick={() => setIsCartOpen(false)}
                   className="w-full block text-center py-2 text-xs font-semibold text-zinc-600 hover:text-zinc-900 underline underline-offset-4"
                 >
-                  View Full Bag
+                  {t('cart.viewBag')}
                 </Link>
               </div>
             </div>

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Product } from '@/types/ecommerce';
 import { formatPrice } from '@/lib/utils/format';
 import { useCart } from '@/lib/context/CartContext';
+import { useLanguage } from '@/lib/context/LanguageContext';
 import { SizeGuideModal } from '@/components/shared/SizeGuideModal';
 import { TynProductCard } from './TynProductCard';
 import { KazakhCornerOrnament, KazakhDivider, KoshkarMuyiz } from './KazakhOrnament';
@@ -17,7 +18,6 @@ import {
   Minus,
   Check,
   ChevronDown,
-  Sparkles,
 } from 'lucide-react';
 
 export const TynProductDetail: React.FC<{
@@ -25,6 +25,7 @@ export const TynProductDetail: React.FC<{
   relatedProducts: Product[];
 }> = ({ product, relatedProducts }) => {
   const { addToCart } = useCart();
+  const { t } = useLanguage();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState(product.colors[0] || { name: 'Standard', hex: '#0D4352' });
   const [selectedSize, setSelectedSize] = useState(product.sizes[0] || 'M');
@@ -32,7 +33,6 @@ export const TynProductDetail: React.FC<{
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'details' | 'materials' | 'shipping'>('details');
 
-  // Find active variant for stock validation
   const currentVariant = product.variants.find(
     (v) =>
       v.colorName.toLowerCase() === selectedColor.name.toLowerCase() &&
@@ -72,7 +72,7 @@ export const TynProductDetail: React.FC<{
       <div className="flex items-center space-x-2 text-[11px] text-zinc-500 uppercase tracking-widest font-serif">
         <Link href="/tyn" className="hover:text-[#0D4352]">Home</Link>
         <span>/</span>
-        <Link href="/tyn/shop" className="hover:text-[#0D4352]">Shop</Link>
+        <Link href="/tyn/shop" className="hover:text-[#0D4352]">{t('nav.shopAll')}</Link>
         <span>/</span>
         <span className="text-[#0D4352] font-bold line-clamp-1">{product.name}</span>
       </div>
@@ -118,8 +118,8 @@ export const TynProductDetail: React.FC<{
             />
 
             {product.salePrice && (
-              <span className="absolute top-4 left-4 bg-red-800 text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1 shadow-md z-10">
-                SPECIAL PRICE
+              <span className="absolute top-4 left-4 bg-red-800 text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1 shadow-md z-10 font-serif">
+                {t('nav.sale')}
               </span>
             )}
           </div>
@@ -153,14 +153,14 @@ export const TynProductDetail: React.FC<{
               </span>
             )}
             <span className="ml-auto text-xs font-serif text-[#C49A45] font-semibold">
-              Tax included • Free Shipping &gt; 35 000 ₸
+              {t('product.taxIncluded')} • Free Shipping &gt; 35 000 ₸
             </span>
           </div>
 
           {/* Color Selection */}
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs">
-              <span className="font-bold text-[#0D4352] uppercase tracking-wider">Color:</span>
+              <span className="font-bold text-[#0D4352] uppercase tracking-wider">{t('product.color')}:</span>
               <span className="text-zinc-600">{selectedColor.name}</span>
             </div>
             <div className="flex items-center space-x-3">
@@ -187,12 +187,12 @@ export const TynProductDetail: React.FC<{
           {/* Size Selection */}
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs">
-              <span className="font-bold text-[#0D4352] uppercase tracking-wider">Size:</span>
+              <span className="font-bold text-[#0D4352] uppercase tracking-wider">{t('product.size')}:</span>
               <button
                 onClick={() => setIsSizeGuideOpen(true)}
                 className="text-xs text-[#C49A45] hover:underline inline-flex items-center gap-1 font-serif font-bold uppercase"
               >
-                <Ruler className="w-3.5 h-3.5" /> Sizing Guide
+                <Ruler className="w-3.5 h-3.5" /> {t('product.sizingGuide')}
               </button>
             </div>
             <div className="grid grid-cols-5 gap-2">
@@ -221,10 +221,10 @@ export const TynProductDetail: React.FC<{
             />
             <span className="font-medium text-zinc-700">
               {isOutOfStock
-                ? 'Out of stock in selected size/color'
+                ? t('product.outOfStock')
                 : currentStock <= 5
-                ? `Only ${currentStock} left in stock — order soon!`
-                : `In Stock (${currentStock} available in Almaty warehouse)`}
+                ? t('product.onlyLeft', { count: currentStock })
+                : `${t('product.inStock')} (${currentStock} in Almaty atelier)`}
             </span>
           </div>
 
@@ -254,7 +254,7 @@ export const TynProductDetail: React.FC<{
                 disabled={isOutOfStock}
                 className="flex-1 py-3.5 px-6 bg-[#0D4352] hover:bg-[#C49A45] hover:text-[#0D4352] text-[#F7F5F0] text-xs font-black tracking-[0.2em] uppercase transition-all duration-200 shadow-md flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isOutOfStock ? 'OUT OF STOCK' : 'ADD TO BAG'}
+                {isOutOfStock ? t('product.outOfStock') : t('product.addToBag')}
               </button>
             </div>
           </div>
@@ -282,7 +282,7 @@ export const TynProductDetail: React.FC<{
                 onClick={() => setActiveTab(activeTab === 'details' ? ('' as any) : 'details')}
                 className="w-full p-3 text-left text-xs font-bold uppercase tracking-wider text-[#0D4352] flex items-center justify-between"
               >
-                <span>Garment Architecture & Features</span>
+                <span>{t('product.garmentFeatures')}</span>
                 <ChevronDown className={`w-4 h-4 transition-transform ${activeTab === 'details' ? 'rotate-180' : ''}`} />
               </button>
               {activeTab === 'details' && (
@@ -304,7 +304,7 @@ export const TynProductDetail: React.FC<{
                 onClick={() => setActiveTab(activeTab === 'materials' ? ('' as any) : 'materials')}
                 className="w-full p-3 text-left text-xs font-bold uppercase tracking-wider text-[#0D4352] flex items-center justify-between"
               >
-                <span>Materials & Care Instructions</span>
+                <span>{t('product.materialsCare')}</span>
                 <ChevronDown className={`w-4 h-4 transition-transform ${activeTab === 'materials' ? 'rotate-180' : ''}`} />
               </button>
               {activeTab === 'materials' && (
@@ -320,7 +320,7 @@ export const TynProductDetail: React.FC<{
                 onClick={() => setActiveTab(activeTab === 'shipping' ? ('' as any) : 'shipping')}
                 className="w-full p-3 text-left text-xs font-bold uppercase tracking-wider text-[#0D4352] flex items-center justify-between"
               >
-                <span>Delivery & Kazakhstan Pick-Up</span>
+                <span>{t('product.deliveryPickUp')}</span>
                 <ChevronDown className={`w-4 h-4 transition-transform ${activeTab === 'shipping' ? 'rotate-180' : ''}`} />
               </button>
               {activeTab === 'shipping' && (
@@ -340,13 +340,13 @@ export const TynProductDetail: React.FC<{
         <div className="pt-12 border-t border-[#0D4352]/15 space-y-6">
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-black font-serif uppercase tracking-wider text-[#0D4352]">
-              Complete The Steppe Aesthetic
+              {t('product.completeLook')}
             </h3>
             <Link
               href="/tyn/shop"
               className="text-xs font-bold uppercase tracking-widest text-[#0D4352] hover:text-[#C49A45]"
             >
-              Shop All Streetwear →
+              {t('home.shopAll')} →
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

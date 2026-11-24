@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useCart } from '@/lib/context/CartContext';
+import { useLanguage } from '@/lib/context/LanguageContext';
 import { formatPrice } from '@/lib/utils/format';
 import { createOrder } from '@/lib/data/store';
 import { Order } from '@/types/ecommerce';
@@ -19,6 +20,7 @@ import {
 
 export default function CheckoutPage() {
   const { cart, subtotal, freeShippingThreshold, clearCart } = useCart();
+  const { t } = useLanguage();
 
   // Form State
   const [formData, setFormData] = useState({
@@ -113,20 +115,20 @@ export default function CheckoutPage() {
               <CheckCircle2 className="w-10 h-10" />
             </div>
             <span className="text-[10px] font-bold tracking-[0.25em] text-emerald-700 uppercase bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-              Order Confirmed & Stored in Database
+              {t('checkout.orderConfirmed')}
             </span>
             <h1 className="text-3xl font-black uppercase tracking-wider text-zinc-900">
-              Рақмет! Your Order is Placed
+              {t('checkout.thankYou')}
             </h1>
             <p className="text-xs text-zinc-500">
-              Order Number: <strong className="text-zinc-900 font-mono text-sm">{completedOrder.orderNumber}</strong>
+              {t('checkout.orderNumber')}: <strong className="text-zinc-900 font-mono text-sm">{completedOrder.orderNumber}</strong>
             </p>
           </div>
 
           {/* Delivery & Tracking card */}
           <div className="p-4 bg-zinc-50 border border-zinc-200 rounded-sm text-xs space-y-2">
             <div className="flex justify-between items-center">
-              <span className="text-zinc-500">Tracking Code:</span>
+              <span className="text-zinc-500">{t('checkout.trackingCode')}:</span>
               <span className="font-mono font-bold text-zinc-900">{completedOrder.trackingNumber}</span>
             </div>
             <div className="flex justify-between items-center">
@@ -179,7 +181,7 @@ export default function CheckoutPage() {
               <span>{completedOrder.shippingFee === 0 ? 'FREE' : formatPrice(completedOrder.shippingFee)}</span>
             </div>
             <div className="flex justify-between text-sm font-extrabold text-zinc-900 pt-2 border-t border-zinc-200">
-              <span>Total Paid:</span>
+              <span>{t('checkout.total')}:</span>
               <span>{formatPrice(completedOrder.totalAmount)}</span>
             </div>
           </div>
@@ -189,7 +191,7 @@ export default function CheckoutPage() {
               href="/"
               className="flex-1 py-3 text-center bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-bold uppercase tracking-widest transition-colors"
             >
-              Return to Storefront
+              {t('checkout.returnToStore')}
             </Link>
             <Link
               href="/admin"
@@ -212,7 +214,7 @@ export default function CheckoutPage() {
           <div className="flex items-center space-x-2">
             <Lock className="w-5 h-5 text-emerald-600" />
             <h1 className="text-xl font-black uppercase tracking-wider">
-              Secure Checkout • TYN × PROATHLETIC
+              {t('checkout.title')} • TYN × PROATHLETIC
             </h1>
           </div>
           <Link
@@ -225,12 +227,12 @@ export default function CheckoutPage() {
 
         {cart.length === 0 ? (
           <div className="py-20 text-center bg-white border border-zinc-200 rounded-sm p-8 max-w-md mx-auto space-y-4">
-            <p className="text-sm font-bold text-zinc-800 uppercase">Your bag is empty</p>
+            <p className="text-sm font-bold text-zinc-800 uppercase">{t('cart.emptyTitle')}</p>
             <Link
               href="/"
               className="inline-block px-6 py-2.5 bg-zinc-900 text-white text-xs font-bold uppercase"
             >
-              Return to shopping
+              {t('cart.continueShopping')}
             </Link>
           </div>
         ) : (
@@ -244,13 +246,13 @@ export default function CheckoutPage() {
                     1
                   </span>
                   <h2 className="text-sm font-bold uppercase tracking-wider text-zinc-900">
-                    Contact & Customer Details
+                    {t('checkout.step1')}
                   </h2>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-zinc-700 mb-1">First Name *</label>
+                    <label className="block text-xs font-semibold text-zinc-700 mb-1">{t('checkout.firstName')} *</label>
                     <input
                       type="text"
                       required
@@ -261,7 +263,7 @@ export default function CheckoutPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-zinc-700 mb-1">Last Name *</label>
+                    <label className="block text-xs font-semibold text-zinc-700 mb-1">{t('checkout.lastName')} *</label>
                     <input
                       type="text"
                       required
@@ -275,7 +277,7 @@ export default function CheckoutPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-zinc-700 mb-1">Email Address *</label>
+                    <label className="block text-xs font-semibold text-zinc-700 mb-1">{t('checkout.email')} *</label>
                     <input
                       type="email"
                       required
@@ -286,7 +288,7 @@ export default function CheckoutPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-zinc-700 mb-1">Phone Number (Kazakhstan) *</label>
+                    <label className="block text-xs font-semibold text-zinc-700 mb-1">{t('checkout.phone')} *</label>
                     <input
                       type="tel"
                       required
@@ -306,13 +308,13 @@ export default function CheckoutPage() {
                     2
                   </span>
                   <h2 className="text-sm font-bold uppercase tracking-wider text-zinc-900">
-                    Kazakhstan Delivery Address
+                    {t('checkout.step2')}
                   </h2>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-zinc-700 mb-1">City / Region *</label>
+                    <label className="block text-xs font-semibold text-zinc-700 mb-1">{t('checkout.city')} *</label>
                     <select
                       value={formData.city}
                       onChange={(e) => setFormData({ ...formData, city: e.target.value })}
@@ -332,7 +334,7 @@ export default function CheckoutPage() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-zinc-700 mb-1">Postal Code *</label>
+                    <label className="block text-xs font-semibold text-zinc-700 mb-1">{t('checkout.postalCode')} *</label>
                     <input
                       type="text"
                       required
@@ -345,7 +347,7 @@ export default function CheckoutPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-zinc-700 mb-1">Street Address *</label>
+                  <label className="block text-xs font-semibold text-zinc-700 mb-1">{t('checkout.streetAddress')} *</label>
                   <input
                     type="text"
                     required
@@ -357,7 +359,7 @@ export default function CheckoutPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-zinc-700 mb-1">Apartment / Suite (Optional)</label>
+                  <label className="block text-xs font-semibold text-zinc-700 mb-1">{t('checkout.apartment')}</label>
                   <input
                     type="text"
                     placeholder="Apt 42, Floor 4, Intercom 42K"
@@ -370,7 +372,7 @@ export default function CheckoutPage() {
                 {/* Shipping Method Options */}
                 <div className="space-y-2 pt-2">
                   <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700">
-                    Courier Delivery Speed
+                    {t('checkout.shippingMethod')}
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <label
@@ -388,9 +390,9 @@ export default function CheckoutPage() {
                         className="mt-0.5"
                       />
                       <div>
-                        <p className="font-bold text-zinc-900">Standard Express (1-3 Days)</p>
+                        <p className="font-bold text-zinc-900">{t('checkout.standardDelivery')}</p>
                         <p className="text-[11px] text-zinc-500">
-                          {baseShippingFee === 0 ? 'FREE (Orders &gt; 35 000 ₸)' : '2 500 ₸ door-to-door'}
+                          {baseShippingFee === 0 ? 'FREE (Orders > 35 000 ₸)' : '2 500 ₸ door-to-door'}
                         </p>
                       </div>
                     </label>
@@ -410,7 +412,7 @@ export default function CheckoutPage() {
                         className="mt-0.5"
                       />
                       <div>
-                        <p className="font-bold text-zinc-900">Same-Day Priority Courier</p>
+                        <p className="font-bold text-zinc-900">{t('checkout.vipDelivery')}</p>
                         <p className="text-[11px] text-zinc-500">
                           +{formatPrice(1500)} (Almaty & Astana metro)
                         </p>
@@ -427,7 +429,7 @@ export default function CheckoutPage() {
                     3
                   </span>
                   <h2 className="text-sm font-bold uppercase tracking-wider text-zinc-900">
-                    Payment Gateway Selection
+                    {t('checkout.step3')}
                   </h2>
                 </div>
 
@@ -449,7 +451,7 @@ export default function CheckoutPage() {
                       <div>
                         <p className="font-bold text-zinc-900 flex items-center gap-1.5">
                           <span className="w-2.5 h-2.5 rounded-full bg-red-600 inline-block" />
-                          Kaspi Pay / Kaspi Red (QR code on confirmation)
+                          {t('checkout.kaspiPay')}
                         </p>
                         <p className="text-[11px] text-zinc-500">Instant verification for Kazakhstan residents</p>
                       </div>
@@ -476,7 +478,7 @@ export default function CheckoutPage() {
                       <div>
                         <p className="font-bold text-zinc-900 flex items-center gap-1.5">
                           <CreditCard className="w-4 h-4 text-zinc-700" />
-                          Visa / MasterCard / Apple Pay
+                          {t('checkout.card')}
                         </p>
                         <p className="text-[11px] text-zinc-500">Secure 3D-Secure 256-bit bank encrypted</p>
                       </div>
@@ -498,7 +500,7 @@ export default function CheckoutPage() {
                         onChange={() => setFormData({ ...formData, paymentMethod: 'cod' })}
                       />
                       <div>
-                        <p className="font-bold text-zinc-900">Cash / Kaspi on Courier Handover</p>
+                        <p className="font-bold text-zinc-900">{t('checkout.cod')}</p>
                         <p className="text-[11px] text-zinc-500">Inspect the garments before paying the courier</p>
                       </div>
                     </div>
@@ -511,7 +513,7 @@ export default function CheckoutPage() {
             <div className="lg:col-span-5 space-y-6">
               <div className="bg-white border border-zinc-200 rounded-sm p-6 shadow-sm space-y-4">
                 <h2 className="text-sm font-bold uppercase tracking-wider text-zinc-900 border-b border-zinc-100 pb-3 flex items-center justify-between">
-                  <span>Order Items ({cart.length})</span>
+                  <span>{t('checkout.orderSummary')} ({cart.length})</span>
                   <Link href="/cart" className="text-xs text-zinc-500 hover:underline normal-case">
                     Edit Bag
                   </Link>
@@ -546,17 +548,17 @@ export default function CheckoutPage() {
 
                 <div className="border-t border-zinc-200 pt-4 space-y-2 text-xs">
                   <div className="flex justify-between text-zinc-600">
-                    <span>Subtotal:</span>
+                    <span>{t('cart.subtotal')}:</span>
                     <span className="font-bold text-zinc-900">{formatPrice(subtotal)}</span>
                   </div>
                   <div className="flex justify-between text-zinc-600">
-                    <span>Courier Delivery:</span>
+                    <span>{t('cart.shipping')}:</span>
                     <span className="font-bold text-zinc-900">
-                      {shippingFee === 0 ? 'FREE' : formatPrice(shippingFee)}
+                      {shippingFee === 0 ? t('cart.free') : formatPrice(shippingFee)}
                     </span>
                   </div>
                   <div className="flex justify-between text-base font-black text-zinc-900 pt-2 border-t border-zinc-200">
-                    <span>Total Amount:</span>
+                    <span>{t('checkout.total')}:</span>
                     <span className="text-zinc-900">{formatPrice(totalAmount)}</span>
                   </div>
                 </div>
@@ -567,10 +569,10 @@ export default function CheckoutPage() {
                   className="w-full py-4 bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-black tracking-widest uppercase transition-colors shadow-xl flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {isSubmitting ? (
-                    'Processing Order...'
+                    t('checkout.processing')
                   ) : (
                     <>
-                      Complete Order • {formatPrice(totalAmount)} <ArrowRight className="w-4 h-4" />
+                      {t('checkout.placeOrder')} • {formatPrice(totalAmount)} <ArrowRight className="w-4 h-4" />
                     </>
                   )}
                 </button>

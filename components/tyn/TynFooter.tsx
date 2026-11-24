@@ -3,9 +3,11 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { KazakhDivider, KoshkarMuyiz } from './KazakhOrnament';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { useLanguage, LanguageSwitcher } from '@/lib/context/LanguageContext';
+import { ArrowRight, CheckCircle2, ShieldCheck, CreditCard } from 'lucide-react';
 
 export const TynFooter: React.FC = () => {
+  const { t } = useLanguage();
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
@@ -36,17 +38,17 @@ export const TynFooter: React.FC = () => {
             </div>
           </div>
           <p className="text-xs text-zinc-300 leading-relaxed max-w-sm">
-            Rooted in ancestral steppe geometry and elevated for contemporary urban culture. Every garment is crafted with heavyweight natural fibers and authentic Kazakh ornamentation.
+            {t('footer.missionTyn')}
           </p>
           <div className="pt-2 text-xs text-[#C49A45]">
-            <p className="font-semibold">Flagship Showrooms:</p>
-            <p className="text-zinc-400 mt-1">Almaty: Dostyk Ave 180 • Astana: Mangilik El 53</p>
+            <p className="font-semibold">{t('footer.flagshipShowrooms')}:</p>
+            <p className="text-zinc-400 mt-1">{t('footer.almatyLocation')}</p>
           </div>
         </div>
 
         {/* Shop Navigation */}
         <div className="space-y-3">
-          <p className="text-xs font-bold tracking-widest text-[#C49A45] uppercase">Collections</p>
+          <p className="text-xs font-bold tracking-widest text-[#C49A45] uppercase">{t('nav.collections')}</p>
           <ul className="space-y-2 text-xs text-zinc-300">
             <li>
               <Link href="/tyn/collections/steppe-horizon" className="hover:text-white transition-colors">
@@ -65,7 +67,7 @@ export const TynFooter: React.FC = () => {
             </li>
             <li>
               <Link href="/tyn/shop" className="hover:text-white transition-colors">
-                All Products
+                {t('nav.shopAll')}
               </Link>
             </li>
           </ul>
@@ -77,22 +79,32 @@ export const TynFooter: React.FC = () => {
           <ul className="space-y-2 text-xs text-zinc-300">
             <li>
               <Link href="/tyn/about" className="hover:text-white transition-colors">
-                Our Story & Heritage
+                {t('nav.ourHeritage')}
               </Link>
             </li>
             <li>
               <Link href="/tyn/contact" className="hover:text-white transition-colors">
-                Contact & Showrooms
+                {t('nav.contact')}
               </Link>
             </li>
             <li>
-              <Link href="/cart" className="hover:text-white transition-colors">
-                Shopping Bag
+              <Link href="/shipping" className="hover:text-white transition-colors">
+                Shipping & Pick-Up
               </Link>
             </li>
             <li>
-              <Link href="/admin" className="text-[#C49A45] hover:underline">
-                Store Admin Portal
+              <Link href="/returns" className="hover:text-white transition-colors">
+                Returns & 14-Day Exchanges
+              </Link>
+            </li>
+            <li>
+              <Link href="/faq" className="hover:text-white transition-colors">
+                FAQ
+              </Link>
+            </li>
+            <li>
+              <Link href="/admin" className="text-[#C49A45] hover:underline font-bold">
+                {t('nav.admin')}
               </Link>
             </li>
           </ul>
@@ -100,15 +112,15 @@ export const TynFooter: React.FC = () => {
 
         {/* Newsletter Signup */}
         <div className="space-y-3">
-          <p className="text-xs font-bold tracking-widest text-[#C49A45] uppercase">Join the Steppe Circle</p>
+          <p className="text-xs font-bold tracking-widest text-[#C49A45] uppercase">{t('footer.joinCircle')}</p>
           <p className="text-xs text-zinc-400">
-            Subscribe for exclusive private capsule drops, heritage stories, and 10% off your first purchase.
+            {t('footer.subscribeDesc')}
           </p>
 
           {subscribed ? (
             <div className="p-3 bg-emerald-950/60 border border-emerald-500/40 rounded flex items-center space-x-2 text-xs text-emerald-300">
               <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Рақмет! You are now subscribed to the Steppe Circle.</span>
+              <span>{t('footer.subscribedMsg')}</span>
             </div>
           ) : (
             <form onSubmit={handleSubscribe} className="space-y-2">
@@ -116,7 +128,7 @@ export const TynFooter: React.FC = () => {
                 <input
                   type="email"
                   required
-                  placeholder="Enter your email"
+                  placeholder="email@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-3 py-2 text-xs bg-transparent text-white placeholder-zinc-500 outline-none"
@@ -131,16 +143,20 @@ export const TynFooter: React.FC = () => {
               </div>
             </form>
           )}
+
+          <div className="pt-2">
+            <LanguageSwitcher theme="dark" />
+          </div>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-6 border-t border-zinc-800 text-[11px] text-zinc-400 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p>© 2026 TYN Streetwear Kazakhstan. All rights reserved.</p>
+        <p>© 2026 TYN Streetwear Kazakhstan. {t('footer.rightsReserved')}</p>
         <div className="flex items-center space-x-6">
-          <Link href="/tyn" className="hover:text-white">Privacy Policy</Link>
-          <Link href="/tyn" className="hover:text-white">Terms of Service</Link>
+          <Link href="/shipping" className="hover:text-white">{t('footer.privacy')}</Link>
+          <Link href="/returns" className="hover:text-white">{t('footer.terms')}</Link>
           <Link href="/proathletic" className="text-[#C49A45] hover:text-white font-bold">
-            Visit PROATHLETIC Sportswear →
+            PROATHLETIC Sportswear →
           </Link>
         </div>
       </div>

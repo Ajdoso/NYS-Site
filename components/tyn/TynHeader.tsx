@@ -3,12 +3,14 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useCart } from '@/lib/context/CartContext';
+import { useLanguage, LanguageSwitcher } from '@/lib/context/LanguageContext';
 import { BrandSwitcher } from '../shared/BrandSwitcher';
 import { KoshkarMuyiz } from './KazakhOrnament';
-import { Search, ShoppingBag, Menu, X, ChevronDown, User } from 'lucide-react';
+import { Search, ShoppingBag, Menu, X, ChevronDown, User, ArrowRight } from 'lucide-react';
 
 export const TynHeader: React.FC = () => {
   const { totalItems, setIsCartOpen } = useCart();
+  const { t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -16,14 +18,15 @@ export const TynHeader: React.FC = () => {
   return (
     <header className="sticky top-0 z-40 w-full bg-[#F7F5F0]/95 backdrop-blur-md border-b border-[#0D4352]/10 transition-colors">
       {/* Announcement Bar */}
-      <div className="bg-[#0D4352] text-[#F7F5F0] py-2 px-4 text-center text-[11px] font-semibold tracking-widest uppercase flex items-center justify-between">
-        <div className="hidden sm:block text-[#C49A45] text-[10px]">
-          ALMATY • ASTANA • WORLDWIDE
+      <div className="bg-[#0D4352] text-[#F7F5F0] py-2 px-4 text-center text-[10px] sm:text-[11px] font-semibold tracking-widest uppercase flex items-center justify-between">
+        <div className="hidden lg:block text-[#C49A45] text-[10px] font-serif">
+          {t('announcement.worldwide')}
         </div>
         <div className="mx-auto flex items-center gap-2">
-          <span>FREE EXPRESS SHIPPING ACROSS KAZAKHSTAN ON ORDERS OVER 35 000 ₸</span>
+          <span>{t('announcement.freeShipping')}</span>
         </div>
-        <div className="hidden sm:flex items-center gap-2">
+        <div className="hidden sm:flex items-center gap-3">
+          <LanguageSwitcher theme="dark" />
           <BrandSwitcher activeBrand="tyn" />
         </div>
       </div>
@@ -42,73 +45,124 @@ export const TynHeader: React.FC = () => {
         </div>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center space-x-8 text-xs font-bold tracking-widest uppercase text-[#0D4352]">
+        <nav className="hidden lg:flex items-center space-x-7 text-xs font-bold tracking-[0.15em] uppercase text-[#0D4352]">
+          {/* Shop Mega Menu */}
           <div className="relative group py-6">
             <Link
               href="/tyn/shop"
               className="hover:text-[#C49A45] transition-colors flex items-center gap-1"
             >
-              Shop All <ChevronDown className="w-3 h-3 group-hover:rotate-180 transition-transform" />
+              {t('nav.shopAll')} <ChevronDown className="w-3 h-3 group-hover:rotate-180 transition-transform" />
             </Link>
-            {/* Mega Dropdown */}
-            <div className="absolute top-full left-0 w-64 bg-[#F7F5F0] border border-[#0D4352]/15 shadow-xl p-5 hidden group-hover:block transition-all z-50 rounded-sm">
-              <p className="text-[10px] text-[#C49A45] tracking-[0.2em] font-serif uppercase mb-3 pb-1 border-b border-[#0D4352]/10">
-                Categories
-              </p>
-              <div className="space-y-2.5">
-                <Link href="/tyn/shop?category=hoodies" className="block text-zinc-700 hover:text-[#0D4352] hover:translate-x-1 transition-all">
-                  Heavyweight Hoodies
-                </Link>
-                <Link href="/tyn/shop?category=outerwear" className="block text-zinc-700 hover:text-[#0D4352] hover:translate-x-1 transition-all">
-                  Outerwear & Bombers
-                </Link>
-                <Link href="/tyn/shop?category=tees" className="block text-zinc-700 hover:text-[#0D4352] hover:translate-x-1 transition-all">
-                  Oversized Tees
-                </Link>
-                <Link href="/tyn/shop?category=pants" className="block text-zinc-700 hover:text-[#0D4352] hover:translate-x-1 transition-all">
-                  Pants & Cargos
-                </Link>
-                <Link href="/tyn/shop?category=accessories" className="block text-zinc-700 hover:text-[#0D4352] hover:translate-x-1 transition-all">
-                  Accessories
-                </Link>
+            {/* BOXRAW-Style Rich Mega Dropdown */}
+            <div className="absolute top-full left-0 w-[580px] bg-[#F7F5F0] border border-[#0D4352]/15 shadow-2xl p-6 hidden group-hover:grid grid-cols-2 gap-6 transition-all z-50 rounded-sm">
+              <div className="space-y-3">
+                <p className="text-[10px] text-[#C49A45] tracking-[0.2em] font-serif uppercase pb-1 border-b border-[#0D4352]/10 font-bold">
+                  {t('nav.categories')}
+                </p>
+                <div className="space-y-2 text-xs font-semibold">
+                  <Link href="/tyn/shop?category=hoodies" className="block text-zinc-700 hover:text-[#0D4352] hover:translate-x-1 transition-all">
+                    {t('categories.hoodies')}
+                  </Link>
+                  <Link href="/tyn/shop?category=outerwear" className="block text-zinc-700 hover:text-[#0D4352] hover:translate-x-1 transition-all">
+                    {t('categories.outerwear')}
+                  </Link>
+                  <Link href="/tyn/shop?category=tees" className="block text-zinc-700 hover:text-[#0D4352] hover:translate-x-1 transition-all">
+                    {t('categories.tees')}
+                  </Link>
+                  <Link href="/tyn/shop?category=pants" className="block text-zinc-700 hover:text-[#0D4352] hover:translate-x-1 transition-all">
+                    {t('categories.pants')}
+                  </Link>
+                  <Link href="/tyn/shop?category=accessories" className="block text-zinc-700 hover:text-[#0D4352] hover:translate-x-1 transition-all">
+                    {t('categories.accessories')}
+                  </Link>
+                </div>
               </div>
+
+              {/* Visual Card inside Mega Menu */}
+              <Link
+                href="/tyn/collections/steppe-horizon"
+                className="relative aspect-[4/3] rounded-sm overflow-hidden group/tile flex flex-col justify-end p-4 shadow-md bg-[#EDE7DC]"
+              >
+                <div
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover/tile:scale-105"
+                  style={{
+                    backgroundImage: `url('https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80')`,
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0A1F26] via-[#0A1F26]/40 to-transparent" />
+                <div className="relative z-10 text-white">
+                  <span className="text-[9px] font-bold text-[#C49A45] uppercase tracking-widest font-serif">
+                    {t('nav.newDrop')}
+                  </span>
+                  <h4 className="text-sm font-black uppercase font-serif tracking-wide">Steppe Horizon</h4>
+                  <span className="text-[10px] text-white/90 underline inline-flex items-center gap-1 mt-1">
+                    {t('home.exploreCollection')} →
+                  </span>
+                </div>
+              </Link>
             </div>
           </div>
 
+          {/* Collections Mega Menu */}
           <div className="relative group py-6">
             <Link
               href="/tyn/collections/steppe-horizon"
               className="hover:text-[#C49A45] transition-colors flex items-center gap-1"
             >
-              Collections <ChevronDown className="w-3 h-3 group-hover:rotate-180 transition-transform" />
+              {t('nav.collections')} <ChevronDown className="w-3 h-3 group-hover:rotate-180 transition-transform" />
             </Link>
-            <div className="absolute top-full left-0 w-72 bg-[#F7F5F0] border border-[#0D4352]/15 shadow-xl p-5 hidden group-hover:block transition-all z-50 rounded-sm">
-              <p className="text-[10px] text-[#C49A45] tracking-[0.2em] font-serif uppercase mb-3 pb-1 border-b border-[#0D4352]/10">
-                Capsules & Drops
-              </p>
+            <div className="absolute top-full left-0 w-[580px] bg-[#F7F5F0] border border-[#0D4352]/15 shadow-2xl p-6 hidden group-hover:grid grid-cols-2 gap-6 transition-all z-50 rounded-sm">
               <div className="space-y-3">
-                <Link href="/tyn/collections/steppe-horizon" className="block group/item">
-                  <p className="text-zinc-900 group-hover/item:text-[#0D4352] font-bold">Steppe Horizon</p>
-                  <p className="text-[10px] text-zinc-500 normal-case tracking-normal">Drop 01 — Дала Көкжиегі</p>
-                </Link>
-                <Link href="/tyn/collections/nomadic-essentials" className="block group/item">
-                  <p className="text-zinc-900 group-hover/item:text-[#0D4352] font-bold">Nomadic Essentials</p>
-                  <p className="text-[10px] text-zinc-500 normal-case tracking-normal">Core Streetwear Cuts</p>
-                </Link>
-                <Link href="/tyn/collections/altay-gold" className="block group/item">
-                  <p className="text-zinc-900 group-hover/item:text-[#0D4352] font-bold">Altay Gold</p>
-                  <p className="text-[10px] text-zinc-500 normal-case tracking-normal">Limited Heritage Archive</p>
-                </Link>
+                <p className="text-[10px] text-[#C49A45] tracking-[0.2em] font-serif uppercase pb-1 border-b border-[#0D4352]/10 font-bold">
+                  {t('nav.collections')}
+                </p>
+                <div className="space-y-3">
+                  <Link href="/tyn/collections/steppe-horizon" className="block group/item">
+                    <p className="text-zinc-900 group-hover/item:text-[#0D4352] font-bold text-xs">Steppe Horizon</p>
+                    <p className="text-[10px] text-zinc-500 normal-case tracking-normal">Дала Көкжиегі — 500 GSM Fleece</p>
+                  </Link>
+                  <Link href="/tyn/collections/nomadic-essentials" className="block group/item">
+                    <p className="text-zinc-900 group-hover/item:text-[#0D4352] font-bold text-xs">Nomadic Essentials</p>
+                    <p className="text-[10px] text-zinc-500 normal-case tracking-normal">Everyday Minimalist Cuts</p>
+                  </Link>
+                  <Link href="/tyn/collections/altay-gold" className="block group/item">
+                    <p className="text-zinc-900 group-hover/item:text-[#0D4352] font-bold text-xs">Altay Gold Archive</p>
+                    <p className="text-[10px] text-zinc-500 normal-case tracking-normal">Gold Thread Embroidery</p>
+                  </Link>
+                </div>
               </div>
+
+              <Link
+                href="/tyn/collections/nomadic-essentials"
+                className="relative aspect-[4/3] rounded-sm overflow-hidden group/tile flex flex-col justify-end p-4 shadow-md bg-[#EDE7DC]"
+              >
+                <div
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover/tile:scale-105"
+                  style={{
+                    backgroundImage: `url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80')`,
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0A1F26] via-[#0A1F26]/40 to-transparent" />
+                <div className="relative z-10 text-white">
+                  <span className="text-[9px] font-bold text-[#C49A45] uppercase tracking-widest font-serif">
+                    Core Capsule
+                  </span>
+                  <h4 className="text-sm font-black uppercase font-serif tracking-wide">Nomadic Essentials</h4>
+                  <span className="text-[10px] text-white/90 underline inline-flex items-center gap-1 mt-1">
+                    {t('home.exploreCollection')} →
+                  </span>
+                </div>
+              </Link>
             </div>
           </div>
 
           <Link href="/tyn/about" className="hover:text-[#C49A45] transition-colors">
-            Our Heritage
+            {t('nav.ourHeritage')}
           </Link>
 
           <Link href="/tyn/contact" className="hover:text-[#C49A45] transition-colors">
-            Showroom & Contact
+            {t('nav.contact')}
           </Link>
         </nav>
 
@@ -128,8 +182,12 @@ export const TynHeader: React.FC = () => {
         </div>
 
         {/* Right Action Icons */}
-        <div className="flex items-center space-x-5">
+        <div className="flex items-center space-x-4 sm:space-x-5">
           <div className="sm:hidden">
+            <LanguageSwitcher theme="light" />
+          </div>
+
+          <div className="hidden sm:block">
             <BrandSwitcher activeBrand="tyn" />
           </div>
 
@@ -147,7 +205,7 @@ export const TynHeader: React.FC = () => {
               >
                 <input
                   type="text"
-                  placeholder="Search TYN products..."
+                  placeholder={t('nav.search')}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full text-xs bg-transparent outline-none text-zinc-800 placeholder-zinc-400"
@@ -176,7 +234,7 @@ export const TynHeader: React.FC = () => {
           <Link
             href="/admin"
             className="p-1.5 text-[#0D4352] hover:text-[#C49A45] transition-colors"
-            title="Admin Dashboard"
+            title={t('nav.admin')}
           >
             <User className="w-5 h-5" />
           </Link>
@@ -189,7 +247,7 @@ export const TynHeader: React.FC = () => {
           >
             <ShoppingBag className="w-5 h-5" />
             {totalItems > 0 && (
-              <span className="absolute -top-1 -right-1 bg-[#C49A45] text-[#0D4352] text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 bg-[#C49A45] text-[#0D4352] text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-sm">
                 {totalItems}
               </span>
             )}
@@ -200,48 +258,53 @@ export const TynHeader: React.FC = () => {
       {/* Mobile Drawer Navigation */}
       {mobileMenuOpen && (
         <div className="lg:hidden bg-[#F7F5F0] border-b border-[#0D4352]/20 px-6 py-6 space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-[#0D4352]/10">
+            <LanguageSwitcher theme="light" />
+            <BrandSwitcher activeBrand="tyn" />
+          </div>
+
           <div className="space-y-3 font-bold tracking-widest uppercase text-xs text-[#0D4352]">
             <Link
               href="/tyn/shop"
               onClick={() => setMobileMenuOpen(false)}
               className="block py-2 border-b border-[#0D4352]/10"
             >
-              Shop All Products
+              {t('nav.shopAll')}
             </Link>
             <Link
               href="/tyn/collections/steppe-horizon"
               onClick={() => setMobileMenuOpen(false)}
               className="block py-2 border-b border-[#0D4352]/10"
             >
-              Collection: Steppe Horizon
+              Steppe Horizon
             </Link>
             <Link
               href="/tyn/collections/nomadic-essentials"
               onClick={() => setMobileMenuOpen(false)}
               className="block py-2 border-b border-[#0D4352]/10"
             >
-              Collection: Nomadic Essentials
+              Nomadic Essentials
             </Link>
             <Link
               href="/tyn/about"
               onClick={() => setMobileMenuOpen(false)}
               className="block py-2 border-b border-[#0D4352]/10"
             >
-              Our Heritage
+              {t('nav.ourHeritage')}
             </Link>
             <Link
               href="/tyn/contact"
               onClick={() => setMobileMenuOpen(false)}
               className="block py-2 border-b border-[#0D4352]/10"
             >
-              Contact & Showrooms
+              {t('nav.contact')}
             </Link>
             <Link
               href="/admin"
               onClick={() => setMobileMenuOpen(false)}
               className="block py-2 text-[#C49A45]"
             >
-              Admin Dashboard
+              {t('nav.admin')}
             </Link>
           </div>
         </div>

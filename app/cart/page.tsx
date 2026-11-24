@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useCart } from '@/lib/context/CartContext';
+import { useLanguage } from '@/lib/context/LanguageContext';
 import { formatPrice } from '@/lib/utils/format';
 import { Trash2, Plus, Minus, ArrowRight, ShoppingBag, ShieldCheck, Truck } from 'lucide-react';
 
@@ -15,6 +16,7 @@ export default function CartPage() {
     freeShippingThreshold,
     amountUntilFreeShipping,
   } = useCart();
+  const { t } = useLanguage();
 
   const shippingFee = subtotal >= freeShippingThreshold || subtotal === 0 ? 0 : 2500;
   const total = subtotal + shippingFee;
@@ -27,14 +29,14 @@ export default function CartPage() {
           <div className="flex items-center space-x-3">
             <ShoppingBag className="w-6 h-6 text-zinc-900" />
             <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-wider">
-              Shopping Bag ({cart.length} unique items)
+              {t('cart.title')} ({cart.length})
             </h1>
           </div>
           <Link
             href="/"
             className="text-xs font-bold text-zinc-600 hover:text-zinc-900 underline uppercase tracking-widest"
           >
-            Continue Shopping
+            {t('cart.continueShopping')}
           </Link>
         </div>
 
@@ -44,10 +46,10 @@ export default function CartPage() {
               <ShoppingBag className="w-8 h-8" />
             </div>
             <h2 className="text-lg font-bold text-zinc-800 uppercase tracking-wider">
-              Your Shopping Bag is Empty
+              {t('cart.emptyTitle')}
             </h2>
             <p className="text-xs text-zinc-500">
-              Browse our independent brands to add streetwear or high-performance athletic apparel.
+              {t('cart.emptySubtitle')}
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-3 pt-2">
               <Link
@@ -73,11 +75,11 @@ export default function CartPage() {
                 {amountUntilFreeShipping === 0 ? (
                   <p className="text-emerald-700 font-bold flex items-center">
                     <Truck className="w-4 h-4 mr-2" />
-                    You qualified for FREE SHIPPING anywhere in Kazakhstan!
+                    {t('cart.qualifiedFreeShipping')}
                   </p>
                 ) : (
                   <p className="text-zinc-700">
-                    Add <strong className="text-zinc-900">{formatPrice(amountUntilFreeShipping)}</strong> more to unlock <strong className="text-emerald-700">FREE SHIPPING</strong>.
+                    {t('cart.addMoreForFreeShipping', { amount: formatPrice(amountUntilFreeShipping) })}
                   </p>
                 )}
               </div>
@@ -109,7 +111,7 @@ export default function CartPage() {
                           {item.productName}
                         </h3>
                         <p className="text-xs text-zinc-500">
-                          Color: {item.color} • Size: {item.size}
+                          {t('product.color')}: {item.color} • {t('product.size')}: {item.size}
                         </p>
                         <p className="text-xs font-semibold text-zinc-800">
                           {formatPrice(item.price)} each
@@ -146,7 +148,7 @@ export default function CartPage() {
                           onClick={() => removeFromCart(item.id)}
                           className="text-[11px] text-red-600 hover:underline inline-flex items-center gap-1 mt-1"
                         >
-                          <Trash2 className="w-3 h-3" /> Remove
+                          <Trash2 className="w-3 h-3" /> {t('cart.remove')}
                         </button>
                       </div>
                     </div>
@@ -158,26 +160,26 @@ export default function CartPage() {
             {/* Order Summary Box */}
             <div className="lg:col-span-4 bg-white border border-zinc-200 rounded-sm p-6 shadow-sm space-y-6 h-fit">
               <h2 className="text-base font-bold uppercase tracking-wider text-zinc-900 border-b border-zinc-200 pb-3">
-                Order Summary
+                {t('checkout.orderSummary')}
               </h2>
 
               <div className="space-y-3 text-xs">
                 <div className="flex justify-between text-zinc-600">
-                  <span>Subtotal</span>
+                  <span>{t('cart.subtotal')}</span>
                   <span className="font-bold text-zinc-900">{formatPrice(subtotal)}</span>
                 </div>
                 <div className="flex justify-between text-zinc-600">
-                  <span>Estimated Courier Shipping</span>
+                  <span>{t('cart.shipping')}</span>
                   <span className="font-bold text-zinc-900">
-                    {shippingFee === 0 ? 'FREE' : formatPrice(shippingFee)}
+                    {shippingFee === 0 ? t('cart.free') : formatPrice(shippingFee)}
                   </span>
                 </div>
                 <div className="flex justify-between text-zinc-600">
-                  <span>Sales Tax</span>
-                  <span className="font-medium text-zinc-500">Included in prices</span>
+                  <span>{t('product.taxIncluded')}</span>
+                  <span className="font-medium text-zinc-500">KZT</span>
                 </div>
                 <div className="pt-3 border-t border-zinc-200 flex justify-between text-base font-extrabold text-zinc-900">
-                  <span>Total</span>
+                  <span>{t('checkout.total')}</span>
                   <span>{formatPrice(total)}</span>
                 </div>
               </div>
@@ -186,7 +188,7 @@ export default function CartPage() {
                 href="/checkout"
                 className="w-full py-4 bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-black tracking-widest uppercase transition-colors shadow-md flex items-center justify-center gap-2"
               >
-                Proceed to Checkout <ArrowRight className="w-4 h-4" />
+                {t('cart.checkout')} <ArrowRight className="w-4 h-4" />
               </Link>
 
               <div className="space-y-2 text-[11px] text-zinc-500 pt-2 border-t border-zinc-200">
